@@ -37,7 +37,7 @@ class HomeFragment : Fragment() {
 
     private fun observeData(){
         viewModel.newsList.observe(viewLifecycleOwner){
-            smallNewsCardAdapter.updateList(it.take(20))
+            smallNewsCardAdapter.updateList(it)
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner){

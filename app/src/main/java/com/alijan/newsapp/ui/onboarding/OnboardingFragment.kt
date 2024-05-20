@@ -25,6 +25,8 @@ class OnboardingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewPagerOnboarding.adapter = adapter
+        // binding.viewPagerOnboarding.isUserInputEnabled = false
+
         TabLayoutMediator(
             binding.tabLayoutOnboarding,
             binding.viewPagerOnboarding
@@ -45,7 +47,7 @@ class OnboardingFragment : Fragment() {
 
         if (buttonType == "next" && currentItem < 2) {
             binding.viewPagerOnboarding.currentItem += 1
-        } else {
+        } else if (buttonType == "next" && currentItem == 2) {
             findNavController().navigate(OnboardingFragmentDirections.actionOnboardingFragmentToSignUpFragment())
         }
 
