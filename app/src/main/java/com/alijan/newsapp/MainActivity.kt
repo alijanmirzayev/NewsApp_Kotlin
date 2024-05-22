@@ -22,19 +22,12 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
-    private val homeFragment = HomeFragment()
-    private val exploreFragment = ExploreFragment()
-    private val bookmarkFragment = BookmarkFragment()
-    private val profileFragment = ProfileFragment()
-    private var activeFragment: Fragment = homeFragment
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        addFragments()
         createBottomNavigation()
 
     }
@@ -51,43 +44,6 @@ class MainActivity : AppCompatActivity() {
                 else -> binding.bottomNavigationView.visible()
             }
         }
-
-        binding.bottomNavigationView.setOnItemSelectedListener {
-            when(it.itemId){
-                R.id.homeFragment -> {
-                    supportFragmentManager.beginTransaction().hide(activeFragment).show(homeFragment).commit()
-                    activeFragment = homeFragment
-                    true
-                }
-                R.id.exploreFragment -> {
-                    supportFragmentManager.beginTransaction().hide(activeFragment).show(exploreFragment).commit()
-                    activeFragment = exploreFragment
-                    true
-                }
-                R.id.bookmarkFragment -> {
-                    supportFragmentManager.beginTransaction().hide(activeFragment).show(bookmarkFragment).commit()
-                    activeFragment = bookmarkFragment
-                    true
-                }
-                R.id.profileFragment -> {
-                    supportFragmentManager.beginTransaction().hide(activeFragment).show(profileFragment).commit()
-                    activeFragment = profileFragment
-                    true
-                }
-                else -> false
-            }
-        }
     }
 
-    private fun addFragments(){
-        supportFragmentManager.beginTransaction()
-            .add(R.id.fragmentContainerView,homeFragment, "home").hide(homeFragment).commit()
-        supportFragmentManager.beginTransaction()
-            .add(R.id.fragmentContainerView,exploreFragment, "explore").hide(exploreFragment).commit()
-        supportFragmentManager.beginTransaction()
-            .add(R.id.fragmentContainerView,bookmarkFragment,"bookmark").hide(bookmarkFragment).commit()
-        supportFragmentManager.beginTransaction()
-            .add(R.id.fragmentContainerView,profileFragment,"profile").hide(profileFragment).commit()
-
-    }
 }

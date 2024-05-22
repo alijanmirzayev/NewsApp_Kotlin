@@ -3,9 +3,11 @@ package com.alijan.newsapp.ui.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
 
-class AuthViewModel: ViewModel() {
+class AuthViewModel : ViewModel() {
 
     private val auth = FirebaseAuth.getInstance()
 
@@ -18,28 +20,32 @@ class AuthViewModel: ViewModel() {
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
 
-    fun requestSignIn(email: String, password: String){
+    fun requestSignIn(email: String, password: String) {
         _isLoading.value = true
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-            _isLogin.value = it.isSuccessful
+        viewModelScope.launch {
+            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+                _isLogin.value = it.isSuccessful
 
-            if(!it.isSuccessful){
-                _errorMessage.value = it.exception?.localizedMessage
+                if (!it.isSuccessful) {
+                    _errorMessage.value = it.exception?.localizedMessage
+                }
+
+                _isLoading.value = false
             }
-
-            _isLoading.value = false
         }
     }
 
-    fun requestSignUp(email: String, password: String){
+    fun requestSignUp(email: String, password: String) {
         _isLoading.value = true
-        auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener {
-            _isLogin.value = it.isSuccessful
+        viewModelScope.launch {
+            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+                _isLogin.value = it.isSuccessful
 
-            if(!it.isSuccessful){
-                _errorMessage.value = it.exception?.localizedMessage
+                if (!it.isSuccessful) {
+                    _errorMessage.value = it.exception?.localizedMessage
+                }
+                _isLoading.value = false
             }
-            _isLoading.value = false
         }
     }
 

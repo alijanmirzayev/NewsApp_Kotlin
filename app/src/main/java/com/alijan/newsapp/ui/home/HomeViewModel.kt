@@ -4,10 +4,12 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.alijan.newsapp.api.ApiClient
 import com.alijan.newsapp.model.ArticleModel
 import com.alijan.newsapp.model.NewsResponseModel
 import com.alijan.newsapp.util.toastError
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,25 +33,15 @@ class HomeViewModel: ViewModel() {
 
     private fun requestAllNews(query: String = "Russia"){
         _isLoading.value = true
-        api.getAllNews(query).enqueue(object : Callback<NewsResponseModel>{
-            override fun onResponse(
-                call: Call<NewsResponseModel>,
-                response: Response<NewsResponseModel>
-            ) {
-                val response = response.body()
-                response?.let {
-                    it.articles.let { it2->
-                        _newsList.value = it2
-                    }
+        viewModelScope.launch {
+            val response = api.getAllNews(query)
+
+            if(response.isSuccessful){
+                response.body()?.let {
+                    _newsList.value = it.articles
                 }
-                _isLoading.value = false
             }
-
-            override fun onFailure(call: Call<NewsResponseModel>, t: Throwable) {
-                _errorMessage.value = t.localizedMessage
-                _isLoading.value = false
-            }
-
-        })
+            _isLoading.value = false
+        }
     }
 }
