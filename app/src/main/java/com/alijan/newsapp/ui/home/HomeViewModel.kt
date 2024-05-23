@@ -1,22 +1,17 @@
 package com.alijan.newsapp.ui.home
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alijan.newsapp.api.ApiClient
-import com.alijan.newsapp.model.ArticleModel
-import com.alijan.newsapp.model.NewsResponseModel
-import com.alijan.newsapp.util.toastError
+import com.alijan.newsapp.data.api.ApiClient
+import com.alijan.newsapp.data.model.ArticleModel
+import com.alijan.newsapp.data.repository.NewsRepository
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class HomeViewModel: ViewModel() {
 
-    private val api = ApiClient.createApi()
+    private val newsRepository = NewsRepository()
 
     private var _newsList = MutableLiveData<List<ArticleModel>>()
     val newsList: LiveData<List<ArticleModel>> get() = _newsList
@@ -34,7 +29,7 @@ class HomeViewModel: ViewModel() {
     private fun requestAllNews(query: String = "Russia"){
         _isLoading.value = true
         viewModelScope.launch {
-            val response = api.getAllNews(query)
+            val response = newsRepository.requestAllNews(query)
 
             if(response.isSuccessful){
                 response.body()?.let {
