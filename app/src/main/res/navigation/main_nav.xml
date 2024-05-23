@@ -66,6 +66,6 @@
         tools:layout="@layout/fragment_detail" >
         <argument
             android:name="item"
-            app:argType="com.alijan.newsapp.model.ArticleModel" />
+            app:argType="com.alijan.newsapp.data.model.ArticleModel" />
     </fragment>
 </navigation>

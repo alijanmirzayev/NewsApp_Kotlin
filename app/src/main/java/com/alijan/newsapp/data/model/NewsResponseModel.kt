@@ -1,4 +1,4 @@
-package com.alijan.newsapp.model
+package com.alijan.newsapp.data.model
 
 
 import com.google.gson.annotations.SerializedName

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.alijan.newsapp.model.OnboardingModel" />
+            type="com.alijan.newsapp.data.model.OnboardingModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

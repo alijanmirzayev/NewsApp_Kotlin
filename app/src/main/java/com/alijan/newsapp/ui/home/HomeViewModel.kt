@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alijan.newsapp.api.ApiClient
-import com.alijan.newsapp.model.ArticleModel
-import com.alijan.newsapp.model.NewsResponseModel
+import com.alijan.newsapp.data.api.ApiClient
+import com.alijan.newsapp.data.model.ArticleModel
+import com.alijan.newsapp.data.model.NewsResponseModel
 import com.alijan.newsapp.util.toastError
 import kotlinx.coroutines.launch
 import retrofit2.Call

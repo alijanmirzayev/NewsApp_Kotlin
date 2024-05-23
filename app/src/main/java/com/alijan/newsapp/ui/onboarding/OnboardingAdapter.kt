@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.alijan.newsapp.R
 import com.alijan.newsapp.databinding.ItemOnboardingBinding
-import com.alijan.newsapp.model.OnboardingModel
+import com.alijan.newsapp.data.model.OnboardingModel
 
 class OnboardingAdapter: RecyclerView.Adapter<OnboardingAdapter.OnboardingViewHolder>() {
 
