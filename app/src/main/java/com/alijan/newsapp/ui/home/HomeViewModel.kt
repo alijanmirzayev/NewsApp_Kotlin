@@ -5,10 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alijan.newsapp.data.api.ApiClient
-import com.alijan.newsapp.data.model.ArticleModel
-import com.alijan.newsapp.data.model.NewsResponseModel
-import com.alijan.newsapp.data.repository.NewsRepository
+import com.alijan.newsapp.api.ApiClient
+import com.alijan.newsapp.model.ArticleModel
+import com.alijan.newsapp.model.NewsResponseModel
 import com.alijan.newsapp.util.toastError
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -17,7 +16,7 @@ import retrofit2.Response
 
 class HomeViewModel: ViewModel() {
 
-    private val newsRepository = NewsRepository()
+    private val api = ApiClient.createApi()
 
     private var _newsList = MutableLiveData<List<ArticleModel>>()
     val newsList: LiveData<List<ArticleModel>> get() = _newsList
@@ -35,20 +34,14 @@ class HomeViewModel: ViewModel() {
     private fun requestAllNews(query: String = "Russia"){
         _isLoading.value = true
         viewModelScope.launch {
-            try {
-                val response = newsRepository.requestAllNews(query)
+            val response = api.getAllNews(query)
 
-                if(response.isSuccessful){
-                    response.body()?.let {
-                        _newsList.value = it.articles
-                    }
+            if(response.isSuccessful){
+                response.body()?.let {
+                    _newsList.value = it.articles
                 }
-            } catch (e: Exception){
-                _errorMessage.value = e.localizedMessage.toString()
-            } finally {
-                _isLoading.value = false
             }
-
+            _isLoading.value = false
         }
     }
 }
