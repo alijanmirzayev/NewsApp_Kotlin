@@ -1,5 +1,6 @@
 package com.alijan.newsapp.ui.home
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -33,6 +35,10 @@ class HomeFragment : Fragment() {
         binding.rvHomeNewsCard.adapter = smallNewsCardAdapter
 
         observeData()
+
+        smallNewsCardAdapter.onClick = {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(it))
+        }
     }
 
     private fun observeData(){
@@ -48,10 +54,9 @@ class HomeFragment : Fragment() {
             }
         }
 
-        smallNewsCardAdapter.onClick = {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(it))
+        viewModel.errorMessage.observe(viewLifecycleOwner){
+            Toast.makeText(context,it.toString(),Toast.LENGTH_SHORT).show()
         }
-
     }
 
     override fun onDestroyView() {

@@ -1,6 +1,6 @@
-package com.alijan.newsapp.api
+package com.alijan.newsapp.data.api
 
-import com.alijan.newsapp.model.NewsResponseModel
+import com.alijan.newsapp.data.model.NewsResponseModel
 import com.alijan.newsapp.util.Constant
 import retrofit2.Call
 import retrofit2.Response

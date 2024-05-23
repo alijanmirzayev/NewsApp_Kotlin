@@ -1,4 +1,4 @@
-package com.alijan.newsapp.api
+package com.alijan.newsapp.data.api
 
 import com.alijan.newsapp.util.Constant
 import retrofit2.Retrofit
